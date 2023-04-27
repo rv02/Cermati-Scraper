@@ -42,15 +42,17 @@ class JobScraper implements Runnable {
             System.out.println(jsonObject);
             String resHTML = jsonObject.getJSONObject("jobAd").getJSONObject("sections").getJSONObject("jobDescription").getString("text");
             String qualHTML = jsonObject.getJSONObject("jobAd").getJSONObject("sections").getJSONObject("qualifications").getString("text");
+            String country = jsonObject.getJSONObject("location").getString("country");
+            country = (country.equals("in")) ? ", India": (country.equals("id")?", Indonesia":"");
             Job jobObject = new Job(
-                    LocalScraper.getTextList(resHTML),
-                    LocalScraper.getTextList(qualHTML),
+                    solution.getTextList(resHTML),
+                    solution.getTextList(qualHTML),
                     jsonObject.getString("name"),
-                    jsonObject.getJSONObject("location").getString("city"),
+                    jsonObject.getJSONObject("location").getString("city") + country,
                     poster
             );
 
-            LocalScraper.addJobToDepartment(jobObject, department);
+            solution.addJobToDepartment(jobObject, department);
 
             inputStreamObject.close();
         } catch (IOException | JSONException e) {
@@ -58,7 +60,7 @@ class JobScraper implements Runnable {
         }
     }
 }
-public class LocalScraper {
+public class solution {
     private static List<String[]> jobs = new ArrayList<>();
     private static Map<String, List<Job>> departmentJobs = new HashMap<>();
 
