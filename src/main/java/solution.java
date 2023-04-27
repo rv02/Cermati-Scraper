@@ -125,7 +125,7 @@ public class solution {
         System.out.println(departmentJobs);
         ObjectMapper mapper = new ObjectMapper();
         try {
-            mapper.writeValue(new File("data.json"), departmentJobs);
+            mapper.writeValue(new File("solution.json"), departmentJobs);
         } catch (IOException e) {
             e.printStackTrace();
         }
